@@ -9,7 +9,7 @@ pipeline {
         stage('Build'){
             steps{
                  sh script: 'mvn clean package'
-                 archiveArtifacts artifacts: 'target/*.war', onlyIfSuccessful: true
+                 archiveArtifacts artifacts: '**/target/*.war', onlyIfSuccessful: false
             }
         }
         stage('Upload War To Nexus'){
