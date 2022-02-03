@@ -3,7 +3,7 @@ pipeline {
     //tools {maven 'maven3'}
     options {
         buildDiscarder logRotator(daysToKeepStr: '5', numToKeepStr: '5')
-        timeout(time: 1, unit: 'MINUTES')
+        timeout(time: 10, unit: 'MINUTES')
     }
     stages{
         stage('Build'){
