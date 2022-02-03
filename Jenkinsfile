@@ -1,10 +1,9 @@
 pipeline {
     agent any
-    tools {
-        maven 'maven3'
-    }
+    //tools {maven 'maven3'}
     options {
-        buildDiscarder logRotator(daysToKeepStr: '5', numToKeepStr: '7')
+        buildDiscarder logRotator(daysToKeepStr: '5', numToKeepStr: '5')
+        timeout(time: 1, unit: 'MINUTES')
     }
     stages{
         stage('Build'){
@@ -16,9 +15,8 @@ pipeline {
         stage('Upload War To Nexus'){
             steps{
                 script{
-
                     def mavenPom = readMavenPom file: 'pom.xml'
-                    def nexusRepoName = mavenPom.version.endsWith("SNAPSHOT") ? "simpleapp-snapshot" : "simpleapp-release"
+                    def nexusRepoName = mavenPom.version.endsWith("SNAPSHOT") ? "sample-snapshot" : "sample-release"
                     nexusArtifactUploader artifacts: [
                         [
                             artifactId: 'simple-app', 
@@ -29,7 +27,7 @@ pipeline {
                     ], 
                     credentialsId: 'nexus3', 
                     groupId: 'in.javahome', 
-                    nexusUrl: '172.31.15.204:8081', 
+                    nexusUrl: '18.118.6.29:8081', 
                     nexusVersion: 'nexus3', 
                     protocol: 'http', 
                     repository: nexusRepoName, 
